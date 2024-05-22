@@ -1,0 +1,9 @@
+index.js
+obfuscate.js
+.env
+.env.example
+*.md
+!README.md
+./config/defaul.js
+.gitignore
+sdk.html

@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login Module</title>
+</head>
+<body>
+    <h1>Client Login System</h1>
+    <button id="loginButton">Login</button>
+    <button id="logoutButton">Logout</button>
+
+    <script type="module">
+        import { login, logout } from './index.js';
+
+        document.addEventListener('DOMContentLoaded', () => {
+            const loginButton = document.getElementById('loginButton');
+            const logoutButton = document.getElementById('logoutButton');
+
+            loginButton.addEventListener('click', () => login('clientBRI'));
+            logoutButton.addEventListener('click', () => logout('clientBRI'));
+        });
+    </script>
+</body>
+</html>

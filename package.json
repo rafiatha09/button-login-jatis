@@ -1,19 +1,25 @@
 {
   "name": "login-button-jatis",
-  "version": "1.0.4",
-  "description": "create a plain button module",
-  "main": "index.js",
+  "version": "1.0.15",
+  "description": "add env - 2",
+  "main": "auth-obfuscator.js",
+  "type": "module",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "Atha",
   "license": "ISC",
   "devDependencies": {
-    "@babel/preset-react": "^7.24.1"
+    "@babel/preset-react": "^7.24.1",
+    "javascript-obfuscator": "^4.1.0"
   },
   "babel": {
     "presets": [
       "@babel/preset-react"
     ]
+  },
+  "dependencies": {
+    "config": "^3.3.11",
+    "dotenv": "^16.4.5"
   }
 }
