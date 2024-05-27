@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login Module</title>
+</head>
+<body>
+    <h1>Client Login System</h1>
+    <h3 id="accessToken"></h3>
+    <button id="loginButton">Login</button>
+    <button id="getAccessToken">Get Access Token</button>
+    <button id="logoutButton">Logout</button>
+
+    <script type="module">
+        import { JatisLogin } from './index.js';
+
+        const options = {
+            clientId: 'test',
+            host: 'http://localhost:8080',
+            loopCount: 10,
+            interval: 5
+        }
+
+        const jatis = new JatisLogin(options);
+
+        document.addEventListener('DOMContentLoaded', () => {
+            const loginButton = document.getElementById('loginButton');
+            const logoutButton = document.getElementById('logoutButton');
+            const getAccessToken = document.getElementById('getAccessToken');
+            const accessTokenText = document.getElementById('accessToken');
+
+            // Function to update UI based on access token presence
+            function updateUI(accessToken) {
+                if (accessToken) {
+                    // Access token exists
+                    loginButton.style.display = 'none';
+                    logoutButton.style.display = 'inline-block';
+                    getAccessToken.style.display = 'none';
+                    accessTokenText.innerText = `Access Token: ${accessToken}`;
+                } else {
+                    // No access token
+                    loginButton.style.display = 'inline-block';
+                    logoutButton.style.display = 'none';
+                    getAccessToken.style.display = 'inline-block';
+                    accessTokenText.innerText = '';
+                }
+            }
+
+            // Initial UI update
+            updateUI(jatis.getAccessToken());
+
+            // Event listeners
+            loginButton.addEventListener('click', () => jatis.login());
+            logoutButton.addEventListener('click', () => {
+                jatis.logout();
+                updateUI(null); // Update UI after logout
+            });
+            getAccessToken.addEventListener('click',  () => {
+                const accessToken = jatis.getAccessToken();
+                updateUI(accessToken); // Update UI after getting access token
+            });
+        });
+    </script>
+</body>
+</html>
