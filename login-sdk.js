@@ -3,12 +3,13 @@ const TOKEN = "jatis-token"
 
 // SDK Login for meta
 class JatisLogin {
-    constructor({clientId, host, loopCount = 15, intervalSec = 5}) {
+    constructor({clientId, host, redirectUrl, loopCount = 15, intervalSec = 5}) {
         this.clientId = clientId;
         this.host = host;
         this.secret = "IAV0kBw4t0";
         this.loopCount = loopCount;
         this.interval = intervalSec;
+        this.redirectUrl = redirectUrl;
     }
 
     async login() {
@@ -20,7 +21,7 @@ class JatisLogin {
         };
         
         const randomSession = generateRandomCookie(SESSION, 32); 
-        const loginUrl = `${this.host}/login?client_id=${this.clientId}&session=${randomSession}`;
+        const loginUrl = `${this.host}/login?client_id=${this.clientId}&session=${randomSession}&redirect_url=${this.redirectUrl}`;
         window.open(loginUrl, '_blank');
         
         if (this.loopCount == 0) { return; }
