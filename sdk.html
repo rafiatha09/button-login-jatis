@@ -1,10 +1,12 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Login Module</title>
 </head>
+
 <body>
     <h1>Client Login System</h1>
     <h3 id="accessToken"></h3>
@@ -13,11 +15,12 @@
     <button id="logoutButton">Logout</button>
 
     <script type="module">
-        import { JatisLogin } from './index.js';
+        import { JatisLogin } from './login-sdk.js';
 
         const options = {
-            clientId: 'test',
+            clientId: 'TEST_CLIENT_1',
             host: 'http://localhost:8080',
+            redirectUrl: "https://google.com",
             loopCount: 10,
             interval: 5
         }
@@ -56,11 +59,12 @@
                 jatis.logout();
                 updateUI(null); // Update UI after logout
             });
-            getAccessToken.addEventListener('click',  () => {
+            getAccessToken.addEventListener('click', () => {
                 const accessToken = jatis.getAccessToken();
                 updateUI(accessToken); // Update UI after getting access token
             });
         });
     </script>
 </body>
+
 </html>
