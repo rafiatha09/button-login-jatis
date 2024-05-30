@@ -1,6 +1,8 @@
 module.exports = {
-    testMatch: ['**.test.js'], // Atur pola pencarian untuk file tes
-    setupFiles: ['./setupJest.js'], // Atur untuk menggunakan jest-fetch-mock jika diperlukan
-    testEnvironment: "jsdom"
+  testMatch: ["**.test.js"], // Atur pola pencarian untuk file tes
+  setupFiles: ["./setupJest.js"], // Atur untuk menggunakan jest-fetch-mock jika diperlukan
+  testEnvironment: "jsdom",
+  transform: {
+    "^.+\\.jsx?$": "babel-jest",
+  },
 };
-

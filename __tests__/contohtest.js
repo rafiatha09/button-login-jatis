@@ -1,5 +1,5 @@
 const HOST = "http://localhost:8080";
-const fetch = require("jest-fetch-mock");
+import fetch from "jest-fetch-mock"
 const {
     login,
     fetchAccessToken,

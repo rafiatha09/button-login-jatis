@@ -1,5 +1,5 @@
-const fetch = require("jest-fetch-mock");
-const JatisLogin = require("../login-sdk");
+import { JatisLogin } from "./../login-sdk.js";
+import fetch from "jest-fetch-mock"
 
 // import fetchMock from 'fetch-jest-mock';
 // import { JatisLogin } from "../login-sdk"

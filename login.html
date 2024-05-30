@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login Module</title>
+</head>
+<body>
+    <h1>Client Login</h1>
+    <button id="loginButton">Login</button>
+    
+    <script type="module">
+        import { JatisLogin } from './index.js';
+
+        const options = {
+            clientId: 'test',
+            host: 'http://localhost:8080',
+            loopCount: 10,
+            interval: 5
+        }
+
+        const jatis = new JatisLogin(options);
+
+        document.addEventListener('DOMContentLoaded', () => {
+            const loginButton = document.getElementById('loginButton');
+            loginButton.addEventListener('click', () => jatis.login());
+
+        });
+    </script>
+</body>
+</html>
