@@ -1,17 +1,21 @@
 const fetch = require("jest-fetch-mock");
 const JatisLogin = require("../login-sdk");
 
+// import fetchMock from 'fetch-jest-mock';
+// import { JatisLogin } from "../login-sdk"
+
+
 const SESSION = "jatis-session"
 const TOKEN = "jatis-token"
 
-fetchMock.enableMocks();
+fetch.enableMocks();
 
 
 
 describe("getAccessToken", () => {
 
     beforeEach(() => {
-        fetch.resetMocks();
+        fetchMock.resetMocks();
         cookies = {}; // Reset cookies object
 
         Object.defineProperty(document, 'cookie', {
@@ -51,44 +55,48 @@ describe("getAccessToken", () => {
         // Call the logout function
         await jatis.getAccessToken();
 
-        console.log('cookie after test 1', document.cookie);
-
     });
 
-    // it('token is not in cookie, session != null', async () => {
+    it('token is not in cookie, session != null', async () => {
 
-    //     const jatis = new JatisLogin(options);
+        const jatis = new JatisLogin(options);
 
-    //     const value = 'session-random';
-    //     const setCookieMock = (name, value) => {
-    //         document.cookie = `${name}=${value || ''};`;
-    //     };
+        // Spy on the getCookie function
+        const getCookieSpy = jest.spyOn(jatis, 'getCookie');
 
-    //     jest.spyOn(document, 'cookie', 'set');
+        // Mock the implementation of getCookie
+        getCookieSpy.mockImplementation((name) => {
+            if (name === SESSION) return 'session-random';
+            if (name === TOKEN) return null;
+            return null;
+        });
 
-    //     setCookieMock(SESSION, value);
+        fetchMock.mockResponseOnce(JSON.stringify({ token: 'new-token' }));
 
-    //     expect(document.cookie).toBe(`${SESSION}=${value};`);
+        await jatis.getAccessToken();
 
-    //     jatis.getCookie = jest.fn();
 
-    //     fetchMock.mockResponseOnce(JSON.stringify({ token: 'new-token' }));
+        jatis.setCookie = jest.fn()
+        jatis.generateSignature = jest.fn()
 
-    //     await jatis.getAccessToken();
+        jatis.setCookie.mockReturnValue()
+        await jatis.generateSignature.mockReturnValue('valid-signature')
+        // Assertions
+        expect(getCookieSpy).toHaveBeenCalledWith(TOKEN);
+        expect(getCookieSpy).toHaveBeenCalledWith(SESSION);
+        expect(getCookieSpy.mock.results[1].value).toBe('session-random');
 
-    //     expect(jatis.getCookie(SESSION)).not.toBeNull();
-    //     expect(jatis.getCookie).toHaveBeenCalledWith(TOKEN);
-    //     expect(jatis.getCookie).toHaveBeenCalledWith(SESSION);
-    //     expect(fetchMock).toHaveBeenCalledWith(`${options.host}/get-access-token?client_id=${options.clientId}&session=session-random`, {
-    //         method: 'GET',
-    //         headers: {
-    //             'Content-Type': 'application/json',
-    //             'X-Timestamp': expect.any(Number),
-    //             'Signature': expect.any(String),
-    //         }
-    //     });
+        // expect(fetchMock).toHaveBeenCalledTimes(1);
+        // expect(fetchMock).toHaveBeenCalledWith(`${options.host}/get-access-token?client_id=${options.clientId}&session=session-random`, {
+        //     method: 'GET',
+        //     headers: {
+        //         'Content-Type': 'application/json',
+        //         'X-Timestamp': expect.any(Number),
+        //         'Signature': expect.any(String),
+        //     }
+        // });
 
-    // });
+    });
 
 
 })

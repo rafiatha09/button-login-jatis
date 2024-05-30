@@ -16,8 +16,12 @@
     "jest-fetch-mock": "^3.0.3"
   },
   "devDependencies": {
+    "@babel/core": "^7.24.6",
+    "@babel/preset-env": "^7.24.6",
+    "babel-jest": "^29.7.0",
     "dotenv-webpack": "^8.1.0",
     "jest-environment-jsdom": "^29.7.0",
+    "jsdom": "^24.1.0",
     "webpack": "^5.91.0",
     "webpack-cli": "^5.1.4"
   }

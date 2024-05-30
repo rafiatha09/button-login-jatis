@@ -1,16 +1,19 @@
 const fetch = require("jest-fetch-mock");
 const JatisLogin = require("../login-sdk");
 
+// import fetchMock from 'fetch-jest-mock';
+// import { JatisLogin } from "../login-sdk"
+
 
 const SESSION = "jatis-session"
 const TOKEN = "jatis-token"
 
-fetchMock.enableMocks();
+fetch.enableMocks();
 
 
 describe("logout success", () => {
     beforeEach(() => {
-        fetch.resetMocks();
+        fetchMock.resetMocks();
         document.cookie = '';
     });
 

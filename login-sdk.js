@@ -1,9 +1,10 @@
 const SESSION = "jatis-session"
 const TOKEN = "jatis-token"
-const crypto = require('crypto');
-const { TextEncoder } = require('util');
+// const crypto = require('crypto');   //CUMA KEPAKE BUAT TESTING
+// const { TextEncoder } = require('util'); //CUMA KEPAKE BUAT TESTING
 
-class JatisLogin {
+
+export class JatisLogin {
     constructor({ clientId, host, redirectUrl, loopCount = 15, intervalSec = 5 }) {
         this.clientId = clientId;
         this.host = host;
@@ -77,8 +78,8 @@ class JatisLogin {
     async #fetchAccessToken(sessionCookie) {
         try {
             let timestamp = new Date().getTime();
+            console.log("MASUK SINI 1")
             let signature = await this.generateSignature(this.clientId, sessionCookie, this.secret, timestamp);
-
             const response = await fetch(`${this.host}/get-access-token?client_id=${this.clientId}&session=${sessionCookie}`, {
                 method: 'GET',
                 headers: {
@@ -134,6 +135,7 @@ class JatisLogin {
         const encoder = new TextEncoder();
         const data = encoder.encode(formula);
         const hashBuffer = await crypto.subtle.digest('SHA-256', data);
+        // console.log("MASUK SIGNATURE 2")
         const hashArray = Array.from(new Uint8Array(hashBuffer));
         const hashHex = hashArray.map(byte => byte.toString(16).padStart(2, '0')).join('');
         return hashHex;
@@ -191,4 +193,4 @@ class JatisLogin {
 
 
 
-module.exports = JatisLogin;
+// module.exports = JatisLogin;
