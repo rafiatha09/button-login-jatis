@@ -1,5 +1,7 @@
 const SESSION = "jatis-session"
 const TOKEN = "jatis-token"
+const crypto = require('crypto');
+const { TextEncoder } = require('util');
 
 class JatisLogin {
     constructor({ clientId, host, redirectUrl, loopCount = 15, intervalSec = 5 }) {
@@ -75,7 +77,7 @@ class JatisLogin {
     async #fetchAccessToken(sessionCookie) {
         try {
             let timestamp = new Date().getTime();
-            let signature = await generateSignature(this.clientId, sessionCookie, this.secret, timestamp);
+            let signature = await this.generateSignature(this.clientId, sessionCookie, this.secret, timestamp);
 
             const response = await fetch(`${this.host}/get-access-token?client_id=${this.clientId}&session=${sessionCookie}`, {
                 method: 'GET',
@@ -106,7 +108,7 @@ class JatisLogin {
     async #fetchLogout(sessionCookie) {
         try {
             let timestamp = new Date().getTime();
-            let signature = await generateSignature(this.clientId, sessionCookie, this.secret, timestamp);
+            let signature = await this.generateSignature(this.clientId, sessionCookie, this.secret, timestamp);
 
             const response = await fetch(`${this.host}/logout?client_id=${this.clientId}&session=${sessionCookie}`, {
                 method: 'POST',
