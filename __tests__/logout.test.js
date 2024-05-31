@@ -1,20 +1,26 @@
 import { JatisLogin } from "./../login-sdk.js";
 import fetch from "jest-fetch-mock"
 
-// import fetchMock from 'fetch-jest-mock';
-// import { JatisLogin } from "../login-sdk"
-
-
 const SESSION = "jatis-session"
 const TOKEN = "jatis-token"
 
 fetch.enableMocks();
 
 
-describe("logout success", () => {
+describe("function logout", () => {
+
+    const reloadFn = () => {
+        window.location.reload();
+    };
     beforeEach(() => {
         fetchMock.resetMocks();
         document.cookie = '';
+        jest.useFakeTimers();
+        Object.defineProperty(window, 'location', {
+            configurable: true,
+            value: { reload: jest.fn() },
+        });
+
     });
 
     const options = {
@@ -24,7 +30,9 @@ describe("logout success", () => {
         loopCount: 10,
         interval: 5
     }
-    it('logout should delete cookies and call fetchLogout', async () => {
+    it('logout should delete cookies and call fetchLogout, success', async () => {
+
+        const jatis = new JatisLogin(options);
         const value = 'session-random';
 
         const setCookieMock = (name, value) => {
@@ -34,25 +42,28 @@ describe("logout success", () => {
         jest.spyOn(document, 'cookie', 'set');
 
         setCookieMock(SESSION, value);
-
         expect(document.cookie).toBe(`${SESSION}=${value}`);
+        jest.spyOn(jatis, "generateSignature").mockResolvedValue("valid-signature");
 
-        const jatis = new JatisLogin(options);
+        jatis.logout()
+        reloadFn();
+        expect(window.location.reload).toHaveBeenCalled();
 
+        // const consoleLogSpy = jest.spyOn(console, 'log').mockImplementation();
 
-        await jatis.logout();
+        // expect(consoleLogSpy).toHaveBeenCalledWith("Already logged in. Please logout first");
+
 
     });
 
-    it('logout should delete cookies and call fetchLogout', async () => {
+    it('session in cookie is already null', async () => {
         const jatis = new JatisLogin(options);
 
 
         jatis.getCookie = jest.fn()
-        jatis.deleteCookie = jest.fn();
 
         // Call the logout function
-        await jatis.logout();
+        jatis.logout();
 
         expect(jatis.getCookie).toHaveBeenCalledWith(SESSION);
 

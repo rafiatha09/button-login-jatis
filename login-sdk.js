@@ -1,9 +1,6 @@
 const SESSION = "jatis-session"
 const TOKEN = "jatis-token"
-// const crypto = require('crypto');   //CUMA KEPAKE BUAT TESTING
-// const { TextEncoder } = require('util'); //CUMA KEPAKE BUAT TESTING
-
-
+// import crypto from 'crypto';
 export class JatisLogin {
     constructor({ clientId, host, redirectUrl, loopCount = 15, intervalSec = 5 }) {
         this.clientId = clientId;
@@ -77,9 +74,11 @@ export class JatisLogin {
 
     async #fetchAccessToken(sessionCookie) {
         try {
+            // console.log("MASUK #fetchAccessToken")
             let timestamp = new Date().getTime();
-            console.log("MASUK SINI 1")
+
             let signature = await this.generateSignature(this.clientId, sessionCookie, this.secret, timestamp);
+
             const response = await fetch(`${this.host}/get-access-token?client_id=${this.clientId}&session=${sessionCookie}`, {
                 method: 'GET',
                 headers: {
@@ -108,6 +107,7 @@ export class JatisLogin {
 
     async #fetchLogout(sessionCookie) {
         try {
+
             let timestamp = new Date().getTime();
             let signature = await this.generateSignature(this.clientId, sessionCookie, this.secret, timestamp);
 

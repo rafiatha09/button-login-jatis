@@ -1,2 +1,6 @@
-// require('jest-fetch-mock').enableMocks()
+import { TextEncoder, } from 'util';
 
+
+
+
+Object.assign(global, { TextEncoder });
